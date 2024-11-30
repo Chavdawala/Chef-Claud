@@ -1,7 +1,7 @@
 export async function getRecipeFromMistral(ingredientsArr) {
     try {
         // Make a POST request to the backend API to get the recipe
-        const response = await fetch("http://localhost:3000/api/get-recipe", {
+        const response = await fetch("https://chef-claud.vercel.app/api/get-recipe", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ingredients: ingredientsArr }),
