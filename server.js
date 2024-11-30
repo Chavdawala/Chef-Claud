@@ -9,7 +9,7 @@ require("dotenv").config();
 // Load API URL and API Key from environment variables
 const apiUrl = process.env.REACT_APP_API_URL;
 const apiKey = process.env.REACT_APP_HF_API_KEY;
-
+const port = process.env.PORT
 // Use CORS middleware to enable cross-origin requests
 app.use(cors()); // This will enable CORS for all routes
 

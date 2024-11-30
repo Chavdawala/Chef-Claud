@@ -1,7 +1,15 @@
+const baseUrl = process.env.NODE_ENV === 'production' 
+  ? 'https://chef-claud.vercel.app' 
+  : 'http://localhost:3000'; // Replace with your local dev URL
+
+
+
+
+
 export async function getRecipeFromMistral(ingredientsArr) {
     try {
         // Make a POST request to the backend API to get the recipe
-        const response = await fetch("https://chef-claud.vercel.app/api/get-recipe", {
+        const response = await fetch(`${baseUrl}/api/get-recipe`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ingredients: ingredientsArr }),
