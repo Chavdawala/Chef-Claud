@@ -1,21 +1,28 @@
 import axios from "axios";
-import cors from "cors";
-import { json } from "express";
 
-const handler = async (req, res) => {
-  // Your environment variables
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const apiKey = process.env.REACT_APP_HF_API_KEY;
+export default async function handler(req, res) {
+  // Use VITE_ prefix for Vite projects
+  const apiUrl = process.env.VITE_API_URL;
+  const apiKey = process.env.VITE_HF_API_KEY;
 
-  // CORS middleware
-  const corsMiddleware = cors();
-  await new Promise((resolve, reject) => {
-    corsMiddleware(req, res, (result) => (result instanceof Error ? reject(result) : resolve(result)));
-  });
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // Handle OPTIONS request for CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
   if (req.method === "POST") {
-    const { ingredients } = req.body; // Get ingredients from the request body
     try {
+      const { ingredients } = req.body;
       const response = await axios.post(
         apiUrl,
         {
@@ -35,6 +42,4 @@ const handler = async (req, res) => {
   } else {
     res.status(405).json({ error: "Method Not Allowed" });
   }
-};
-
-export default handler;
+}
